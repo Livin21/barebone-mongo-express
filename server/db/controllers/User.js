@@ -7,6 +7,10 @@ const Constants = require("../../utils/Constants");
 
 module.exports = {
   async signup(username, password) {
+    if (!username)
+      return ResponseTemplates.badRequestTemplate("Invalid Username");
+    if (!password)
+      return ResponseTemplates.badRequestTemplate("Please enter a password");
     return ResponseTemplates.dataTemplate(
       await User.create({
         username,
@@ -15,6 +19,10 @@ module.exports = {
     );
   },
   async login(username, password) {
+    if (!username)
+      return ResponseTemplates.badRequestTemplate("Invalid Username");
+    if (!password)
+      return ResponseTemplates.badRequestTemplate("Please enter your password");
     let user = await User.findOne({ username });
     if (!bcrypt.compareSync(password, user.password))
       return ResponseTemplates.unAuthorizedRequestTemplate();

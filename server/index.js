@@ -13,8 +13,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan("dev"));
-app.use((req, res, next) => {
-  console.log(req.body);
+// Log request body
+app.use((req, _, next) => {
+  let body = JSON.parse(JSON.stringify(req.body));
+  delete body.password;
+  console.info(body);
   next();
 });
 
